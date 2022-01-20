@@ -45,7 +45,7 @@ void handleNewMessages(int numNewMessages)
       answer = "Beri makan ikan dimulai!";
     } else if (msg.text == "/last")
     {
-      answer = "Terakhir feed : ";
+      answer = "Terakhir beri makan : " + ;
     }
     else
       answer = "Please use command.";

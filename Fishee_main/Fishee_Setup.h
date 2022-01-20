@@ -6,8 +6,11 @@
 #include <Servo.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 #include <UniversalTelegramBot.h>
 #include "Fishee_WiFi.h"
+#include "Fishee_ntp.h"
 #include "Fishee_Ph.h"
 #include "Fishee_Suhu.h"
 #include "Fishee_Stepper.h"

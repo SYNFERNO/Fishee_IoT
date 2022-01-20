@@ -1,6 +1,6 @@
 #include "Fishee_Setup.h"
 
-const unsigned long BOT_MTBS = 500; // mean time between scan messages
+const unsigned long BOT_MTBS = 200; // mean time between scan messages
 unsigned long bot_lasttime; // last time messages' scan has been done
 
 void setup()

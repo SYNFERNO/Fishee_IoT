@@ -4,7 +4,7 @@
 #include "Fishee_Setup.h"
 
 const int stepsPerRevolution = 800;
-const unsigned long BOT_MTBS = 1000;
+const unsigned long MTBS = 1000;
 unsigned long lasttime;
 
 Stepper myStepper(stepsPerRevolution, 5, 4, 14, 12);
@@ -33,7 +33,7 @@ void test_stepper()
 
 void feeder()
 {
-  if (millis() - lasttime > BOT_MTBS)
+  if (millis() - lasttime > MTBS)
   {
     myStepper.setSpeed(80);
     myStepper.step(stepsPerRevolution);

@@ -4,7 +4,7 @@
 #include "Fishee_Setup.h"
 
 const long utcOffsetInSeconds = 3600 * 7;
-char daysOfTheWeek[7][12] = {"Minggu", "Senin ", "Selasa", "Rabu  ", "Kamis ", "Jum'at", "Sabtu "};
+String daysOfTheWeek[7] = {"Minggu", "Senin ", "Selasa", "Rabu  ", "Kamis ", "Jum'at", "Sabtu "};
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds);
@@ -27,7 +27,7 @@ String get_time() {
   String a = daysOfTheWeek[timeClient.getDay()] + ", ";
   a += timeClient.getHours() + ":";
   a += timeClient.getMinutes();
-  return
+  return a;
 }
 
 

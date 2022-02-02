@@ -4,6 +4,8 @@
 #include "Fishee_Setup.h"
 
 const int stepsPerRevolution = 800;
+const unsigned long BOT_MTBS = 1000;
+unsigned long lasttime;
 
 Stepper myStepper(stepsPerRevolution, 5, 4, 14, 12);
 
@@ -16,7 +18,7 @@ void init_stepper()
   Serial.begin(9600);
 }
 
-void test_stepper() 
+void test_stepper()
 {
   // step one revolution in one direction:
   Serial.println("clockwise");
@@ -31,9 +33,13 @@ void test_stepper()
 
 void feeder()
 {
-  Serial.println("Waktu Beri Makan");
-  myStepper.setSpeed(80);
-  myStepper.step(stepsPerRevolution);
+  if (millis() - lasttime > BOT_MTBS)
+  {
+    myStepper.setSpeed(80);
+    myStepper.step(stepsPerRevolution);
+
+    lasttime = millis();
+  }
 }
 
 void unfeeder()

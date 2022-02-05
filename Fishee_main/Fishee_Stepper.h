@@ -5,7 +5,6 @@
 
 const int stepsPerRevolution = 800;
 const unsigned long MTBS = 1000;
-unsigned long lasttime;
 
 Stepper myStepper(stepsPerRevolution, 5, 4, 14, 12);
 
@@ -18,21 +17,10 @@ void init_stepper()
   Serial.begin(9600);
 }
 
-void test_stepper()
-{
-  // step one revolution in one direction:
-  Serial.println("clockwise");
-  myStepper.step(stepsPerRevolution);
-  delay(500);
-
-  // step one revolution in the other direction:
-  Serial.println("counterclockwise");
-  myStepper.step(-stepsPerRevolution);
-  delay(500);
-}
 
 void feeder()
 {
+  unsigned long lasttime;
   if (millis() - lasttime > MTBS)
   {
     myStepper.setSpeed(80);
@@ -40,6 +28,12 @@ void feeder()
 
     lasttime = millis();
   }
+}
+
+void feederr()
+{
+  myStepper.setSpeed(80);
+  myStepper.step(stepsPerRevolution);
 }
 
 void unfeeder()

@@ -20,15 +20,15 @@ void handleNewMessages(int numNewMessages)
     Serial.println("Received " + msg.text);
     if (msg.text == "/help") {
       answer = "This is all feature we have.\n";
-      answer += "/help : show all feature of fishee\n";
-      answer += "/status : show water tempterature and water Ph\n";
-      answer += "/feed : feed your fish\n";
-      answer += "/last : show last time you give feed\n";
+      answer += "/help : Fishee bot siap membantu!\n";
+      answer += "/start : Selamat datang di Fishee bot!\n";
+      answer += "/status : Informasi status pada setiap sensor\n";
+      answer += "/feed : Saatnya memberi pakan ikan\n";
+      answer += "/wheater : Perkiraan cuaca Senin, 10 Februari 2022\n";
     }
     else if (msg.text == "/start")
     {
-      answer = "Welcome to Fishee Butler.\n";
-      answer += "Fishe is blablablabla.\n\n";
+      answer = "Selamat datang di Fishee bot!\n";
       answer += "You, " + msg.from_name + ", thank for choosing fishee.\n";
       answer += "/help : show all feature of fishee\n";
     }
@@ -41,11 +41,16 @@ void handleNewMessages(int numNewMessages)
     }
     else if (msg.text == "/feed")
     {
-      openfeeder();
-      answer = "Beri makan ikan dimulai!";
-    } else if (msg.text == "/last")
+      String aa = "Saatnya memberi pakan ikan!";
+      bot.sendMessage(msg.chat_id, aa, "Markdown");
+      feeder();
+      answer = "Beri pakan ikan selesai!";
+    } 
+    else if (msg.text == "/wheater")
     {
-      answer = "Terakhir beri makan : ";
+      timeClient.update();
+      answer = "Perkiraan cuaca ";
+      answer += daysOfTheWeek[timeClient.getDay()] + ", thank for choosing fishee.\n";
     }
     else
       answer = "Please use command.";
@@ -56,12 +61,12 @@ void handleNewMessages(int numNewMessages)
 
 void bot_setup()
 {
-  const String commands = F("["
-                            "{\"command\":\"help\",  \"description\":\"Get bot usage help\"},"
-                            "{\"command\":\"start\", \"description\":\"Selamat datang di Fishee Bot\"},"
-                            "{\"command\":\"status\",\"description\":\"Dapatkan Status pada setiap sensor\"},"
-                            "{\"command\":\"feed\", \"description\":\"Beri makanan ikans\"},"
-                            "{\"command\":\"unfeed\", \"description\":\"Beri makanan selesai\"}"
+    const String commands = F("["
+                            "{\"command\":\"help\",  \"description\":\"Fishee bot siap membantu!\"},"
+                            "{\"command\":\"start\", \"description\":\"Selamat datang di Fishee bot!\"},"
+                            "{\"command\":\"status\",\"description\":\"Informasi status pada setiap sensor\"},"
+                            "{\"command\":\"feed\", \"description\":\"Saatnya memberi pakan ikan\"},"
+                            "{\"command\":\"wheater\", \"description\":\"Perkiraan cuaca Senin, 10 Februari 2022\"}"
                             "]");
   bot.setMyCommands(commands);
 }

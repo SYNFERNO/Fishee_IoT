@@ -43,14 +43,17 @@ void handleNewMessages(int numNewMessages)
     {
       String aa = "Saatnya memberi pakan ikan!";
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      feeder();
+      for(int i = 0; i < 100; i++)
+      {
+        feederr();
+      }
       answer = "Beri pakan ikan selesai!";
-    } 
+    }
     else if (msg.text == "/wheater")
     {
       timeClient.update();
       answer = "Perkiraan cuaca ";
-      answer += daysOfTheWeek[timeClient.getDay()] + ", thank for choosing fishee.\n";
+      answer += daysOfTheWeek[timeClient.getDay()] + ", " + timeClient.getHours() + ":" + timeClient.getMinutes() + "\n";
     }
     else
       answer = "Please use command.";
@@ -61,7 +64,7 @@ void handleNewMessages(int numNewMessages)
 
 void bot_setup()
 {
-    const String commands = F("["
+  const String commands = F("["
                             "{\"command\":\"help\",  \"description\":\"Fishee bot siap membantu!\"},"
                             "{\"command\":\"start\", \"description\":\"Selamat datang di Fishee bot!\"},"
                             "{\"command\":\"status\",\"description\":\"Informasi status pada setiap sensor\"},"

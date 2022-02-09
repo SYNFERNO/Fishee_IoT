@@ -20,13 +20,9 @@ void init_stepper()
 
 void feeder()
 {
-  unsigned long lasttime;
-  if (millis() - lasttime > MTBS)
-  {
-    myStepper.setSpeed(80);
-    myStepper.step(stepsPerRevolution);
-
-    lasttime = millis();
+  for (int i = 0; i <= 360; i++) {
+     myStepper.setSpeed(80);
+  myStepper.step(stepsPerRevolution);
   }
 }
 

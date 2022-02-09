@@ -8,9 +8,11 @@ void setup()
   Serial.begin(115200);
   Serial.println();
 
+  
   init_wifi();
   init_suhu();
   bot_setup();
+  init_servo();
   init_stepper;
 }
 

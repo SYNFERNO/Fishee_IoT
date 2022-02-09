@@ -7,19 +7,23 @@ Servo myservo;
 
 int pos = 0;
 
-void openfeeder() {
+void init_servo(){
   myservo.attach(D3);
-  for (pos = 0; pos <= 360; pos += 1) {
-    myservo.write(pos);
-    delay(15);
-    feederr();
-  }
 }
 
-void closefeeder() {
-  myservo.attach(D3);
-  myservo.write(0);
-  unfeeder();
+void openfeeder() {
+ myservo.write(10);
+ delay(50);
+ myservo.write(360);
+ delay(50);
+ myservo.write(10);
+ delay(50);
+ myservo.write(360);
+ delay(50);
+ myservo.write(10);
+ delay(50);
+ myservo.write(360);
+ delay(50);
 }
 
 #endif

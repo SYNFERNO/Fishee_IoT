@@ -41,12 +41,10 @@ void handleNewMessages(int numNewMessages)
     }
     else if (msg.text == "/feed")
     {
-      String aa = "Saatnya memberi pakan ikan!";
-      bot.sendMessage(msg.chat_id, aa, "Markdown");
-      for(int i = 0; i < 100; i++)
-      {
-        feederr();
-      }
+//      const char aa = "Saatnya memberi pakan ikan!";
+//      bot.sendMessage(msg.chat_id, aa, "Markdown");
+      feeder();
+      yield();
       answer = "Beri pakan ikan selesai!";
     }
     else if (msg.text == "/wheater")
@@ -54,6 +52,14 @@ void handleNewMessages(int numNewMessages)
       timeClient.update();
       answer = "Perkiraan cuaca ";
       answer += daysOfTheWeek[timeClient.getDay()] + ", " + timeClient.getHours() + ":" + timeClient.getMinutes() + "\n";
+      String payload = get_weather("Indonesia");
+      
+      DynamicJsonDocument doc(2048);
+      deserializeJson(doc, payload);
+
+      Serial.println(doc["weather"].as<String>());
+      
+      send_sensor(1,2,1,"ss","dd");
     }
     else
       answer = "Please use command.";

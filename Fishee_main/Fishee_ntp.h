@@ -5,6 +5,7 @@
 
 const long utcOffsetInSeconds = 3600 * 7;
 String daysOfTheWeek[7] = {"Minggu", "Senin ", "Selasa", "Rabu  ", "Kamis ", "Jum'at", "Sabtu "};
+String months[12] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "Desember"};
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds);
@@ -27,7 +28,11 @@ String get_time() {
   String a = daysOfTheWeek[timeClient.getDay()] + ", ";
   a += timeClient.getHours() + ":";
   a += timeClient.getMinutes();
-  return a;
+
+  String formattedTime = timeClient.getFormattedTime();
+  Serial.print("Formatted Time: ");
+  Serial.println(formattedTime);
+  return formattedTime;
 }
 
 

@@ -13,17 +13,18 @@ void init_stepper()
 {
   // set the speed at 60 rpm:
   myStepper.setSpeed(80);
-  // initialize the serial port:
-  Serial.begin(9600);
 }
 
 
 void feeder()
 {
-  for (int i = 0; i <= 360; i++) {
-     myStepper.setSpeed(80);
-  myStepper.step(stepsPerRevolution);
+  myStepper.setSpeed(80);
+  for (int i = 0; i <= 25; i++) {
+    Serial.println("test stepper " + String(i));
+    yield();
+    myStepper.step(stepsPerRevolution);
   }
+  myStepper.setSpeed(1);
 }
 
 void feederr()
@@ -34,7 +35,8 @@ void feederr()
 
 void unfeeder()
 {
-  myStepper.step(0);
+  myStepper.setSpeed(0);
+  myStepper.step(stepsPerRevolution);
 }
 
 #endif

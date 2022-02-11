@@ -7,23 +7,16 @@ Servo myservo;
 
 int pos = 0;
 
-void init_servo(){
+void init_servo() {
   myservo.attach(D3);
 }
 
 void openfeeder() {
- myservo.write(10);
- delay(50);
- myservo.write(360);
- delay(50);
- myservo.write(10);
- delay(50);
- myservo.write(360);
- delay(50);
- myservo.write(10);
- delay(50);
- myservo.write(360);
- delay(50);
+  Serial.println("test servo");
+  myservo.write(-180);
+  delay(100);
+  myservo.write(180);
+  delay(100);
 }
 
 #endif

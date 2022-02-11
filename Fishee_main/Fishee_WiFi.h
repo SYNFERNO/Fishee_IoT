@@ -4,8 +4,8 @@
 #include "Fishee_Setup.h"
 
 // Wifi network station credentials
-#define WIFI_SSID "Akh"
-#define WIFI_PASSWORD "123234345"
+#define WIFI_SSID "Log"
+#define WIFI_PASSWORD "12342345"
 
 X509List cert(TELEGRAM_CERTIFICATE_ROOT);
 WiFiClientSecure secured_client;
@@ -17,6 +17,7 @@ void init_wifi()
   secured_client.setTrustAnchors(&cert); // Add root certificate for api.telegram.org
   Serial.print("Connecting to Wifi SSID ");
   Serial.print(WIFI_SSID);
+  WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED)
   {

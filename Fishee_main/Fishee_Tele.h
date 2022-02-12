@@ -49,14 +49,18 @@ void handleNewMessages(int numNewMessages)
     }
     else if (msg.text == "/wheater")
     {
-      timeClient.update();
-      answer = "Perkiraan cuaca ";
-      answer += daysOfTheWeek[timeClient.getDay()] + ", " + timeClient.getHours() + ":" + timeClient.getMinutes() + "\n";
-      String payload = get_weather("Indonesia");
-      
+      String payload = get_weather("Yogyakarta");
       DynamicJsonDocument doc(2048);
       deserializeJson(doc, payload);
-
+      
+      answer = "Perkiraan cuaca ";
+      answer += doc["location"]["localtime"].as<String>() + "\n\n";
+      answer += "Suhu Celsius : " + doc["current"]["temp_c"].as<String>() + "\n";
+      answer += "Suhu Fanreheit : " + doc["current"]["temp_f"].as<String>() + "\n";
+      answer += "Kelembapan : " + doc["current"]["humidity"].as<String>() + "\n";
+      answer += "Kondisi : " + doc["current"]["condition"]["text"].as<String>() + "\n";
+      answer += "Angin : " + doc["current"]["wind_mph"].as<String>() + "mph, " + doc["current"]["wind_kph"].as<String>() + "kph\n";
+      
       Serial.println(doc["weather"].as<String>());
       
       send_sensor(1,2,1,"ss","dd");

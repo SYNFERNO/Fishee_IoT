@@ -12,7 +12,7 @@ String get_weather(String city) {
   WiFiClient clientt;
   HTTPClient http;
 
-  http.begin(clientt, "http://api.openweathermap.org/data/2.5/weather?q=Indonesia&appid=c7e63bcc8dc0bed68775e2e99c858db6");
+  http.begin(clientt, "http://api.weatherapi.com/v1/current.json?key=a399b860916f4e3698913135221202&q=" + city + "&aqi=no");
 
   Serial.print("[HTTP] GET...\n");
 

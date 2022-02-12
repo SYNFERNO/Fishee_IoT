@@ -24,19 +24,6 @@ void feeder()
     yield();
     myStepper.step(stepsPerRevolution);
   }
-  myStepper.setSpeed(1);
-}
-
-void feederr()
-{
-  myStepper.setSpeed(80);
-  myStepper.step(stepsPerRevolution);
-}
-
-void unfeeder()
-{
-  myStepper.setSpeed(0);
-  myStepper.step(stepsPerRevolution);
 }
 
 #endif

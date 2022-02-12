@@ -12,11 +12,18 @@ void init_servo() {
 }
 
 void openfeeder() {
-  Serial.println("test servo");
-  myservo.write(-180);
-  delay(100);
-  myservo.write(180);
-  delay(100);
+  int pos;
+
+  int(int i = 0; i <= 180; i++)
+  {
+    myservo.write(i);
+    delay(15);
+  }
+  int(int i = 0; i <= 180; i--)
+  {
+    myservo.write(i);
+    delay(15);
+  }
 }
 
 #endif

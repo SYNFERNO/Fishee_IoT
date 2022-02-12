@@ -5,23 +5,21 @@
 
 Servo myservo;
 
-int pos = 0;
-
 void init_servo() {
   myservo.attach(D3);
 }
 
 void openfeeder() {
-  int pos;
 
-  int(int i = 0; i <= 180; i++)
+  int pos = 0;
+  for( pos = 0; pos <= 180; pos++)
   {
-    myservo.write(i);
+    myservo.write(pos);
     delay(15);
   }
-  int(int i = 0; i <= 180; i--)
+  for( pos = 0; pos <= 180; pos--)
   {
-    myservo.write(i);
+    myservo.write(pos);
     delay(15);
   }
 }

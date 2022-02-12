@@ -41,8 +41,9 @@ void handleNewMessages(int numNewMessages)
     }
     else if (msg.text == "/feed")
     {
-//      const char aa = "Saatnya memberi pakan ikan!";
-//      bot.sendMessage(msg.chat_id, aa, "Markdown");
+      String aa = "Saatnya memberi pakan ikan!";
+      bot.sendMessage(msg.chat_id, aa, "Markdown");
+      openfeeder();
       feeder();
       yield();
       answer = "Beri pakan ikan selesai!";
@@ -52,7 +53,7 @@ void handleNewMessages(int numNewMessages)
       String payload = get_weather("Yogyakarta");
       DynamicJsonDocument doc(2048);
       deserializeJson(doc, payload);
-      
+
       answer = "Perkiraan cuaca ";
       answer += doc["location"]["localtime"].as<String>() + "\n\n";
       answer += "Suhu Celsius : " + doc["current"]["temp_c"].as<String>() + "\n";
@@ -60,10 +61,10 @@ void handleNewMessages(int numNewMessages)
       answer += "Kelembapan : " + doc["current"]["humidity"].as<String>() + "\n";
       answer += "Kondisi : " + doc["current"]["condition"]["text"].as<String>() + "\n";
       answer += "Angin : " + doc["current"]["wind_mph"].as<String>() + "mph, " + doc["current"]["wind_kph"].as<String>() + "kph\n";
-      
+
       Serial.println(doc["weather"].as<String>());
-      
-      send_sensor(1,2,1,"ss","dd");
+
+      send_sensor(1, 2, 1, "ss", "dd");
     }
     else
       answer = "Please use command.";

@@ -43,9 +43,13 @@ void handleNewMessages(int numNewMessages)
     {
       String aa = "Saatnya memberi pakan ikan!";
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      openfeeder();
+      myservo.write(0);
+      delay(100);
+      myservo.write(180);
+      delay(9000);
+      myservo.write(0);
+      delay(200);
       feeder();
-      yield();
       answer = "Beri pakan ikan selesai!";
     }
     else if (msg.text == "/wheater")

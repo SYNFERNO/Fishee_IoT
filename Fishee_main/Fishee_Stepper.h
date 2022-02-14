@@ -18,10 +18,9 @@ void init_stepper()
 
 void feeder()
 {
-  myStepper.setSpeed(80);
   for (int i = 0; i <= 25; i++) {
+    myStepper.setSpeed(60);
     Serial.println("test stepper " + String(i));
-    yield();
     myStepper.step(stepsPerRevolution);
   }
 }

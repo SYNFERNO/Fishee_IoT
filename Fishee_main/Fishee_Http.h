@@ -6,8 +6,6 @@
 // API KEY WEATHER
 #define API_KEY "c7e63bcc8dc0bed68775e2e99c858db6"
 
-const char *SERVER_IP = "http://3.81.3.232:8001/sensor";
-
 String get_weather(String city) {
   WiFiClient clientt;
   HTTPClient http;
@@ -34,28 +32,57 @@ String get_weather(String city) {
   return payload;
 }
 
-void send_sensor(float ph, float suhu, int id, String nama, String tanggal) {
+void send_sensor(String device, float suhu, float ph) {
   WiFiClient clientt;
   HTTPClient http;
 
   Serial.print("[HTTP] begin...\n");
-  http.begin(clientt, SERVER_IP); //HTTP
-  http.addHeader("Content-Type", "application/plain");
+  http.begin(clientt, "http://104.208.73.152/v1/Sensor"); //HTTP
+  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
   Serial.print("[HTTP] POST...\n");
-  String data = "{\"deviceId\":\"1\",";
-  data += "{\"suhu\":\"" + String(suhu) + "\",";
-  data += "{\"ph\":\"" + String(ph) + "\",";
-  data += "{\"ultraSonic\":\"" + String(suhu) + "\",";
-  data += "{\"createBy\":\"" + String(id) + "\",";
-  data += "{\"createByName\":\"" + nama + "\",";
-  data += "{\"createAt\":\"" + tanggal + "\"}";
-  int httpCode = http.POST(data);
+  String httpRequestData = "device_id="+device+"&celcius="+String(suhu)+"&ph="+String(ph);
+  
+  int httpCode = http.POST(httpRequestData);
 
   // httpCode will be negative on error
   if (httpCode > 0) {
     // HTTP header has been send and Server response header has been handled
     Serial.printf("[HTTP] POST... code: %d\n", httpCode);
+    Serial.printf("[HTTP] POST... failed, error: %s\n", http.errorToString(httpCode).c_str());
+
+    // file found at server
+    if (httpCode == HTTP_CODE_OK) {
+      const String& payload = http.getString();
+      Serial.println("received payload:\n<<");
+      Serial.println(payload);
+      Serial.println(">>");
+    }
+  } else {
+    Serial.printf("[HTTP] POST... failed, error: %s\n", http.errorToString(httpCode).c_str());
+  }
+
+  http.end();
+}
+
+void send_feed(String device, float suhu, float ph) {
+  WiFiClient clientt;
+  HTTPClient http;
+
+  Serial.print("[HTTP] begin...\n");
+  http.begin(clientt, "http://104.208.73.152/v1/Feed"); //HTTP
+  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  Serial.print("[HTTP] POST...\n");
+  String httpRequestData = "device_id="+device+"&suhu="+String(suhu)+"&ph="+String(ph);
+  
+  int httpCode = http.POST(httpRequestData);
+
+  // httpCode will be negative on error
+  if (httpCode > 0) {
+    // HTTP header has been send and Server response header has been handled
+    Serial.printf("[HTTP] POST... code: %d\n", httpCode);
+  Serial.printf("[HTTP] POST... failed, error: %s\n", http.errorToString(httpCode).c_str());
 
     // file found at server
     if (httpCode == HTTP_CODE_OK) {

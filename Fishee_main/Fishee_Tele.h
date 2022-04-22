@@ -2,7 +2,7 @@
 #define FISHEE_TELE_H
 #include <Arduino.h>
 #include "Fishee_Setup.h"
-
+  
 // Telegram BOT Token (Get from Botfather)
 #define BOT_TOKEN "5005722661:AAFb0ynziDY8_oEE4jjfMPNfuk6blt4u5-Q"
 
@@ -24,7 +24,7 @@ void handleNewMessages(int numNewMessages)
       answer += "/start : Selamat datang di Fishee bot!\n";
       answer += "/status : Informasi status pada setiap sensor\n";
       answer += "/feed : Saatnya memberi pakan ikan\n";
-      answer += "/wheater : Perkiraan cuaca Senin, 10 Februari 2022\n";
+      answer += "/wheater : Perkiraan cuaca\n";
     }
     else if (msg.text == "/start")
     {
@@ -36,6 +36,7 @@ void handleNewMessages(int numNewMessages)
     {
       float a = cek_suhu();
       float b = phMeter();
+      send_sensor("1", a, b);
       answer = "Suhu Air : " + String(a, 2) + "\n";
       answer += "Ph Air : " + String(b, 2) + "\n";
     }
@@ -50,6 +51,9 @@ void handleNewMessages(int numNewMessages)
       myservo.write(0);
       delay(200);
       feeder();
+      float a = cek_suhu();
+      float b = phMeter();
+      send_feed("1", a, b);
       answer = "Beri pakan ikan selesai!";
     }
     else if (msg.text == "/wheater")
@@ -67,8 +71,6 @@ void handleNewMessages(int numNewMessages)
       answer += "Angin : " + doc["current"]["wind_mph"].as<String>() + "mph, " + doc["current"]["wind_kph"].as<String>() + "kph\n";
 
       Serial.println(doc["weather"].as<String>());
-
-      send_sensor(1, 2, 1, "ss", "dd");
     }
     else
       answer = "Please use command.";

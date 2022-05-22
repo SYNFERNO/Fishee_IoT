@@ -6,18 +6,23 @@ unsigned long bot_lasttime; // last time messages' scan has been done
 void setup()
 {
   Serial.begin(115200);
-  Serial.println();
+
+  pinMode(D5, OUTPUT);
+  pinMode(D4, OUTPUT);
+  pinMode(D3, OUTPUT);
+  
+  digitalWrite(D3, LOW);
 
 
   init_wifi();
   init_suhu();
   bot_setup();
-  init_servo();
   init_stepper;
 }
 
 void loop()
 {
+  if(wm_nonblocking) wm.process();
   if (millis() - bot_lasttime > BOT_MTBS)
   {
     int numNewMessages = bot.getUpdates(bot.last_message_received + 1);

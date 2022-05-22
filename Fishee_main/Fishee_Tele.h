@@ -44,12 +44,9 @@ void handleNewMessages(int numNewMessages)
     {
       String aa = "Saatnya memberi pakan ikan!";
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      myservo.write(0);
-      delay(100);
-      myservo.write(180);
-      delay(9000);
-      myservo.write(0);
-      delay(200);
+      digitalWrite(D3, LOW);
+      delay(5000);
+      digitalWrite(D3, HIGH);
       feeder();
       float a = cek_suhu();
       float b = phMeter();

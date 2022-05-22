@@ -45,7 +45,7 @@ void handleNewMessages(int numNewMessages)
       String aa = "Saatnya memberi pakan ikan!";
       bot.sendMessage(msg.chat_id, aa, "Markdown");
       digitalWrite(D3, LOW);
-      delay(5000);
+      delay(7000);
       digitalWrite(D3, HIGH);
       feeder();
       float a = cek_suhu();

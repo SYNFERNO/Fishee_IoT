@@ -78,17 +78,17 @@ void init_wifi() {
     Serial.println("Failed to connect or hit timeout");
 
     digitalWrite(D4, HIGH);
-    digitalWrite(D5, HIGH);
+    digitalWrite(D0, HIGH);
     delay(500);
     digitalWrite(D4, LOW);
-    digitalWrite(D5, LOW);
+    digitalWrite(D0, LOW);
     delay(500);
     // ESP.restart();
   }
   else {
     //if you get here you have connected to the WiFi
     Serial.println("connected...yeey :)");
-    digitalWrite(D5, LOW);
+    digitalWrite(D4, HIGH);
   }
 }
 

@@ -4,9 +4,9 @@
 #include "Fishee_Setup.h"
 
 const int stepsPerRevolution = 800;
-const unsigned long MTBS = 1000;
 
-Stepper myStepper(stepsPerRevolution, 5, 4, 18, 18);
+Stepper myStepper(stepsPerRevolution, 5, 4, 14, 12); // D1, D2, D5, D6
+
 
 
 void init_stepper()
@@ -18,8 +18,7 @@ void init_stepper()
 
 void feeder()
 {
-  for (int i = 0; i <= 8; i++) {
-    myStepper.setSpeed(60);
+  for (int i = 0; i <= 25; i++) {
     myStepper.step(stepsPerRevolution);
   }
 }

@@ -18,7 +18,7 @@ void setup()
   pinMode(D0, OUTPUT);
 
   digitalWrite(D0, LOW);
-  digitalWrite(D3, LOW);
+  digitalWrite(D3, HIGH);
   digitalWrite(D4, LOW);
 
 
@@ -45,17 +45,40 @@ void loop()
     bot_lasttime = millis();
   }
 
-  if (WiFi.status() != WL_CONNECTED)
-  {
-    digitalWrite(D4, HIGH);
-    digitalWrite(D0, HIGH);
-    delay(200);
-    digitalWrite(D4, LOW);
-    digitalWrite(D0, LOW);
-    delay(200);
-  }
-  else {
-    digitalWrite(D4, HIGH);
-    digitalWrite(D0, LOW);
+  switch (WiFi.status()) {
+    case WL_CONNECTED:
+      digitalWrite(D4, HIGH);
+      digitalWrite(D0, LOW);
+      break;
+    case WL_IDLE_STATUS:
+      digitalWrite(D4, HIGH);
+      delay(200);
+      digitalWrite(D4, LOW);
+      delay(200);
+      break;
+    case WL_CONNECT_FAILED:
+      digitalWrite(D4, HIGH);
+      digitalWrite(D0, HIGH);
+      delay(200);
+      digitalWrite(D4, LOW);
+      digitalWrite(D0, LOW);
+      delay(200);
+      break;
+    case WL_DISCONNECTED:
+      digitalWrite(D4, HIGH);
+      digitalWrite(D0, HIGH);
+      delay(500);
+      digitalWrite(D4, LOW);
+      digitalWrite(D0, LOW);
+      delay(500);
+      break;
+    case WL_CONNECTION_LOST:
+      digitalWrite(D4, HIGH);
+      digitalWrite(D0, HIGH);
+      delay(300);
+      digitalWrite(D4, LOW);
+      digitalWrite(D0, LOW);
+      delay(300);
+      break;
   }
 }

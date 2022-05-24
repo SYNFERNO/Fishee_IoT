@@ -29,12 +29,14 @@ void init_wifi() {
 
   configTime(0, 0, "pool.ntp.org");      // get UTC time via NTP
   secured_client.setTrustAnchors(&cert); // Add root certificate for api.telegram.org
-  Serial.setDebugOutput(true);  
+  Serial.setDebugOutput(true);
 
   delay(3000);
   Serial.println("\n Starting");
 
-  if(wm_nonblocking) wm.setConfigPortalBlocking(false);
+  wm.resetSettings();
+  
+  if (wm_nonblocking) wm.setConfigPortalBlocking(false);
 
   // add a custom input field
   int customFieldLength = 40;

@@ -6,7 +6,11 @@
 // Telegram BOT Token (Get from Botfather)
 #define BOT_TOKEN "5005722661:AAFb0ynziDY8_oEE4jjfMPNfuk6blt4u5-Q"
 
+int stepperSpeed = 60;
+
 UniversalTelegramBot bot(BOT_TOKEN, secured_client);
+
+int state = 0;
 
 void handleNewMessages(int numNewMessages)
 {
@@ -44,10 +48,9 @@ void handleNewMessages(int numNewMessages)
     {
       String aa = "Saatnya memberi pakan ikan!";
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      digitalWrite(D3, LOW);
-      delay(7000);
-      digitalWrite(D3, HIGH);
-      feeder();
+      state = 1;
+      //feeder(n);
+      //feeder2(500);
       float a = cek_suhu();
       float b = phMeter();
       send_feed("1", a, b);
@@ -83,7 +86,7 @@ void bot_setup()
                             "{\"command\":\"start\", \"description\":\"Selamat datang di Fishee bot!\"},"
                             "{\"command\":\"status\",\"description\":\"Informasi status pada setiap sensor\"},"
                             "{\"command\":\"feed\", \"description\":\"Saatnya memberi pakan ikan\"},"
-                            "{\"command\":\"wheater\", \"description\":\"Perkiraan cuaca Senin, 10 Februari 2022\"}"
+                            "{\"command\":\"wheater\", \"description\":\"Perkiraan cuaca hari ini\"}"
                             "]");
   bot.setMyCommands(commands);
 }

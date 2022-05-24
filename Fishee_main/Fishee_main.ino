@@ -1,7 +1,22 @@
 #include "Fishee_Setup.h"
 
 const unsigned long BOT_MTBS = 200; // mean time between scan messages
+
+const unsigned long Wifi_status1 = 100; // mean time between scan messages
+const unsigned long Wifi_status2 = 200; // mean time between scan messages
+const unsigned long Wifi_status3 = 300; // mean time between scan messages
+const unsigned long Wifi_status4 = 400; // mean time between scan messages
+const unsigned long Wifi_status5 = 500; // mean time between scan messages
+const unsigned long Wifi_status6 = 600; // mean time between scan messages
+
 unsigned long bot_lasttime; // last time messages' scan has been done
+unsigned long wifi_lasttime; // last time messages' scan has been done
+
+int count = 0;
+
+//Sketch uses 499513 bytes (47%) of program storage space. Maximum is 1044464 bytes.
+//Global variables use 35396 bytes (43%) of dynamic memory, leaving 46524 bytes for local variables. Maximum is 81920 bytes.
+
 
 void setup()
 {
@@ -30,6 +45,8 @@ void setup()
 
 void loop()
 {
+  unsigned long currentMillis = millis();
+
   if (wm_nonblocking) wm.process();
   if (millis() - bot_lasttime > BOT_MTBS)
   {
@@ -42,43 +59,79 @@ void loop()
       numNewMessages = bot.getUpdates(bot.last_message_received + 1);
     }
 
-    bot_lasttime = millis();
+    bot_lasttime = currentMillis;
   }
 
   switch (WiFi.status()) {
     case WL_CONNECTED:
       digitalWrite(D4, HIGH);
       digitalWrite(D0, LOW);
+
+      wifi_lasttime = currentMillis;
       break;
     case WL_IDLE_STATUS:
-      digitalWrite(D4, HIGH);
-      delay(200);
-      digitalWrite(D4, LOW);
-      delay(200);
+      if (millis() - wifi_lasttime > Wifi_status1) {
+        digitalWrite(D4, HIGH);
+      }
+
+      if (millis() - wifi_lasttime > Wifi_status6) {
+        digitalWrite(D4, LOW);
+      }
+
+      wifi_lasttime = currentMillis;
       break;
     case WL_CONNECT_FAILED:
-      digitalWrite(D4, HIGH);
-      digitalWrite(D0, HIGH);
-      delay(200);
-      digitalWrite(D4, LOW);
-      digitalWrite(D0, LOW);
-      delay(200);
+      if (millis() - wifi_lasttime > Wifi_status1) {
+        digitalWrite(D4, HIGH);
+        digitalWrite(D0, HIGH);
+      }
+
+      if (millis() - wifi_lasttime > Wifi_status3) {
+        digitalWrite(D4, LOW);
+        digitalWrite(D0, LOW);
+      }
+
+      wifi_lasttime = currentMillis;
       break;
     case WL_DISCONNECTED:
-      digitalWrite(D4, HIGH);
-      digitalWrite(D0, HIGH);
-      delay(500);
-      digitalWrite(D4, LOW);
-      digitalWrite(D0, LOW);
-      delay(500);
+      if (millis() - wifi_lasttime > Wifi_status1) {
+        digitalWrite(D4, HIGH);
+        digitalWrite(D0, HIGH);
+      }
+
+      if (millis() - wifi_lasttime > Wifi_status4) {
+        digitalWrite(D4, LOW);
+        digitalWrite(D0, LOW);
+      }
+
+      wifi_lasttime = currentMillis;
       break;
     case WL_CONNECTION_LOST:
-      digitalWrite(D4, HIGH);
-      digitalWrite(D0, HIGH);
-      delay(300);
-      digitalWrite(D4, LOW);
-      digitalWrite(D0, LOW);
-      delay(300);
+      if (millis() - wifi_lasttime > Wifi_status1) {
+        digitalWrite(D4, HIGH);
+        digitalWrite(D0, HIGH);
+      }
+
+      if (millis() - wifi_lasttime > Wifi_status3) {
+        digitalWrite(D4, LOW);
+        digitalWrite(D0, LOW);
+      }
+
+      wifi_lasttime = currentMillis;
+      break;
+  }
+
+  switch (state) {
+    case 1:
+      if (count < 50) {
+        digitalWrite(D3, LOW);
+        feeder(stepperSpeed);
+      }
+      count = 0;
+      state = 0;
+      break;
+    case 0:
+      digitalWrite(D3, HIGH);
       break;
   }
 }

@@ -12,6 +12,8 @@ UniversalTelegramBot bot(BOT_TOKEN, secured_client);
 
 int state = 0;
 
+String chatid = "";
+
 void handleNewMessages(int numNewMessages)
 {
   Serial.print("handleNewMessages ");
@@ -33,6 +35,7 @@ void handleNewMessages(int numNewMessages)
       answer += "/help - bot command list\n";
     }
     else if (msg.text == "/help") {
+      bot.sendChatAction(msg.chat_id, "typing");
       answer = "I can help you monitor your fish pond and manage Telegram bots.\n";
       answer += "You can control me by sending these commands: \n\n";
       answer += "/status - check the status of your fish pond.\n";
@@ -42,6 +45,7 @@ void handleNewMessages(int numNewMessages)
     }
     else if (msg.text == "/status")
     {
+      bot.sendChatAction(msg.chat_id, "typing");
       float a = cek_suhu();
       float b = phMeter();
       send_sensor("1", a, b);
@@ -50,6 +54,7 @@ void handleNewMessages(int numNewMessages)
     }
     else if (msg.text == "/feed")
     {
+      bot.sendChatAction(msg.chat_id, "typing");
       String keyboardJson = "[[\"10\", \"20\"],[\"30\", \"40\"],[\"50\", \"60\"],[\"70\", \"80\"],[\"90\", \"100\"]]";
       bot.sendMessageWithReplyKeyboard(msg.chat_id, "Choose from one of the following speed", "", keyboardJson, true);
     }
@@ -60,8 +65,8 @@ void handleNewMessages(int numNewMessages)
       String aa = "Start feeding the fish using speed " + msg.text;
       
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      state = 1;
-      //feeder(n);
+      //state = 1;
+      feeder(10);
       //feeder2(500);
       float a = cek_suhu();
       float b = phMeter();
@@ -74,8 +79,8 @@ void handleNewMessages(int numNewMessages)
       String aa = "Start feeding the fish using speed " + msg.text;
       
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      state = 1;
-      //feeder(n);
+      //state = 1;
+      feeder(20);
       //feeder2(500);
       float a = cek_suhu();
       float b = phMeter();
@@ -88,8 +93,8 @@ void handleNewMessages(int numNewMessages)
       String aa = "Start feeding the fish using speed " + msg.text;
       
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      state = 1;
-      //feeder(n);
+      //state = 1;
+      feeder(30);
       //feeder2(500);
       float a = cek_suhu();
       float b = phMeter();
@@ -102,8 +107,8 @@ void handleNewMessages(int numNewMessages)
       String aa = "Start feeding the fish using speed " + msg.text;
       
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      state = 1;
-      //feeder(n);
+      //state = 1;
+      feeder(40);
       //feeder2(500);
       float a = cek_suhu();
       float b = phMeter();
@@ -116,8 +121,8 @@ void handleNewMessages(int numNewMessages)
       String aa = "Start feeding the fish using speed " + msg.text;
       
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      state = 1;
-      //feeder(n);
+      //state = 1;
+      feeder(50);
       //feeder2(500);
       float a = cek_suhu();
       float b = phMeter();
@@ -130,8 +135,8 @@ void handleNewMessages(int numNewMessages)
       String aa = "Start feeding the fish using speed " + msg.text;
       
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      state = 1;
-      //feeder(n);
+      //state = 1;
+      feeder(60);
       //feeder2(500);
       float a = cek_suhu();
       float b = phMeter();
@@ -144,8 +149,8 @@ void handleNewMessages(int numNewMessages)
       String aa = "Start feeding the fish using speed " + msg.text;
       
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      state = 1;
-      //feeder(n);
+      //state = 1;
+      feeder(70);
       //feeder2(500);
       float a = cek_suhu();
       float b = phMeter();
@@ -158,8 +163,8 @@ void handleNewMessages(int numNewMessages)
       String aa = "Start feeding the fish using speed " + msg.text;
       
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      state = 1;
-      //feeder(n);
+      //state = 1;
+      feeder(80);
       //feeder2(500);
       float a = cek_suhu();
       float b = phMeter();
@@ -172,8 +177,8 @@ void handleNewMessages(int numNewMessages)
       String aa = "Start feeding the fish using speed " + msg.text;
       
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      state = 1;
-      //feeder(n);
+      //state = 1;
+      feeder(90);
       //feeder2(500);
       float a = cek_suhu();
       float b = phMeter();
@@ -186,8 +191,8 @@ void handleNewMessages(int numNewMessages)
       String aa = "Start feeding the fish using speed " + msg.text;
       
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      state = 1;
-      //feeder(n);
+      //state = 1;
+      feeder(100);
       //feeder2(500);
       float a = cek_suhu();
       float b = phMeter();
@@ -195,12 +200,13 @@ void handleNewMessages(int numNewMessages)
     }
     else if (msg.text == "/wheater")
     {
+      bot.sendChatAction(msg.chat_id, "typing");
       String country = "Malaysia";
       String payload = get_weather(country);
       DynamicJsonDocument doc(2048);
       deserializeJson(doc, payload);
 
-      answer = "weather forecast " + country;
+      answer = "weather forecast " + country + "\n";
       answer += doc["location"]["localtime"].as<String>() + "\n\n";
       answer += "Suhu Celsius : " + doc["current"]["temp_c"].as<String>() + "\n";
       answer += "Suhu Fanreheit : " + doc["current"]["temp_f"].as<String>() + "\n";
@@ -212,6 +218,9 @@ void handleNewMessages(int numNewMessages)
       answer = "Please use command. or type /help to see command bot list";
 
     bot.sendMessage(msg.chat_id, answer, "Markdown");
+    chatid = msg.chat_id;
+
+    Serial.println(chatid);
   }
 }
 

@@ -11,12 +11,9 @@ const unsigned long Wifi_status6 = 600; // mean time between scan messages
 
 unsigned long bot_lasttime; // last time messages' scan has been done
 unsigned long wifi_lasttime; // last time messages' scan has been done
+unsigned long status_lasttime; // last time messages' scan has been done
 
 int count = 0;
-
-//Sketch uses 499513 bytes (47%) of program storage space. Maximum is 1044464 bytes.
-//Global variables use 35396 bytes (43%) of dynamic memory, leaving 46524 bytes for local variables. Maximum is 81920 bytes.
-
 
 void setup()
 {
@@ -60,6 +57,36 @@ void loop()
     }
 
     bot_lasttime = currentMillis;
+  }
+
+  if (millis() - status_lasttime > 300000)
+  {
+    float a = cek_suhu();
+    float b = phMeter();
+    send_sensor("1", a, b);
+    status_lasttime = currentMillis;
+  }
+
+  if (millis() - status_lasttime > 300000)
+  {
+    float a = cek_suhu();
+    float b = phMeter();
+    send_sensor("1", a, b);
+    status_lasttime = currentMillis;
+  }
+
+  if (millis() - status_lasttime > 60000)
+  {
+    float a = cek_suhu();
+    float b = phMeter();
+
+    if ((a < 25 || a > 30) || (b < 6, 5 || b > 8)) {
+
+      digitalWrite(D4, HIGH);
+      delay(300);
+      digitalWrite(D4, LOW);
+    }
+    status_lasttime = currentMillis;
   }
 
   switch (WiFi.status()) {
@@ -123,15 +150,16 @@ void loop()
 
   switch (state) {
     case 1:
-      if (count < 50) {
-        digitalWrite(D3, LOW);
+      //digitalWrite(D3, LOW);
+      if (count < 1000) {
         feeder(stepperSpeed);
+        count++;
+        delay(20);
       }
       count = 0;
       state = 0;
       break;
     case 0:
-      digitalWrite(D3, HIGH);
       break;
   }
 }

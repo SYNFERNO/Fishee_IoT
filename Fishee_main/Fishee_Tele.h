@@ -2,7 +2,7 @@
 #define FISHEE_TELE_H
 #include <Arduino.h>
 #include "Fishee_Setup.h"
-  
+
 // Telegram BOT Token (Get from Botfather)
 #define BOT_TOKEN "5005722661:AAFb0ynziDY8_oEE4jjfMPNfuk6blt4u5-Q"
 
@@ -11,6 +11,8 @@ int stepperSpeed = 60;
 UniversalTelegramBot bot(BOT_TOKEN, secured_client);
 
 int state = 0;
+
+String chatid = "";
 
 void handleNewMessages(int numNewMessages)
 {
@@ -22,71 +24,214 @@ void handleNewMessages(int numNewMessages)
   {
     telegramMessage &msg = bot.messages[i];
     Serial.println("Received " + msg.text);
-    if (msg.text == "/help") {
-      answer = "This is all feature we have.\n";
-      answer += "/help : Fishee bot siap membantu!\n";
-      answer += "/start : Selamat datang di Fishee bot!\n";
-      answer += "/status : Informasi status pada setiap sensor\n";
-      answer += "/feed : Saatnya memberi pakan ikan\n";
-      answer += "/wheater : Perkiraan cuaca\n";
-    }
-    else if (msg.text == "/start")
+    if (msg.text == "/start")
     {
-      answer = "Selamat datang di Fishee bot!\n";
-      answer += "You, " + msg.from_name + ", thank for choosing fishee.\n";
-      answer += "/help : show all feature of fishee\n";
+      answer = "Hello " + msg.from_name + ", Welcome to the fishee butler bot!!!\n\n";
+      answer += "I can help you monitor your fish pond and manage Telegram bots.\n";
+      answer += "You can control me by sending these commands: \n\n";
+      answer += "/status - check the status of your fish pond.\n";
+      answer += "/feed - feed your fish\n";
+      answer += "/wheater - check current weather status\n";
+      answer += "/help - bot command list\n";
+    }
+    else if (msg.text == "/help") {
+      bot.sendChatAction(msg.chat_id, "typing");
+      answer = "I can help you monitor your fish pond and manage Telegram bots.\n";
+      answer += "You can control me by sending these commands: \n\n";
+      answer += "/status - check the status of your fish pond.\n";
+      answer += "/feed - feed your fish\n";
+      answer += "/wheater - check current weather status\n";
+      answer += "/help - bot command list\n";
     }
     else if (msg.text == "/status")
     {
+      bot.sendChatAction(msg.chat_id, "typing");
       float a = cek_suhu();
       float b = phMeter();
       send_sensor("1", a, b);
-      answer = "Suhu Air : " + String(a, 2) + "\n";
-      answer += "Ph Air : " + String(b, 2) + "\n";
+      answer = "Current water temperature : " + String(a, 2) + "°C\n";
+      answer += "current pH : " + String(b, 2) + "\n";
     }
     else if (msg.text == "/feed")
     {
-      String aa = "Saatnya memberi pakan ikan!";
+      bot.sendChatAction(msg.chat_id, "typing");
+      String keyboardJson = "[[\"10\", \"20\"],[\"30\", \"40\"],[\"50\", \"60\"],[\"70\", \"80\"],[\"90\", \"100\"]]";
+      bot.sendMessageWithReplyKeyboard(msg.chat_id, "Choose from one of the following speed", "", keyboardJson, true);
+    }
+    else if (msg.text == "10")
+    {
+      stepperSpeed = msg.text.toInt();
+      
+      String aa = "Start feeding the fish using speed " + msg.text;
+      
       bot.sendMessage(msg.chat_id, aa, "Markdown");
-      state = 1;
-      //feeder(n);
+      //state = 1;
+      feeder(10);
       //feeder2(500);
       float a = cek_suhu();
       float b = phMeter();
       send_feed("1", a, b);
-      answer = "Beri pakan ikan selesai!";
+    }
+    else if (msg.text == "20")
+    {
+      stepperSpeed = msg.text.toInt();
+      
+      String aa = "Start feeding the fish using speed " + msg.text;
+      
+      bot.sendMessage(msg.chat_id, aa, "Markdown");
+      //state = 1;
+      feeder(20);
+      //feeder2(500);
+      float a = cek_suhu();
+      float b = phMeter();
+      send_feed("1", a, b);
+    }
+    else if (msg.text == "30")
+    {
+      stepperSpeed = msg.text.toInt();
+      
+      String aa = "Start feeding the fish using speed " + msg.text;
+      
+      bot.sendMessage(msg.chat_id, aa, "Markdown");
+      //state = 1;
+      feeder(30);
+      //feeder2(500);
+      float a = cek_suhu();
+      float b = phMeter();
+      send_feed("1", a, b);
+    }
+    else if (msg.text == "40")
+    {
+      stepperSpeed = msg.text.toInt();
+      
+      String aa = "Start feeding the fish using speed " + msg.text;
+      
+      bot.sendMessage(msg.chat_id, aa, "Markdown");
+      //state = 1;
+      feeder(40);
+      //feeder2(500);
+      float a = cek_suhu();
+      float b = phMeter();
+      send_feed("1", a, b);
+    }
+    else if (msg.text == "50")
+    {
+      stepperSpeed = msg.text.toInt();
+      
+      String aa = "Start feeding the fish using speed " + msg.text;
+      
+      bot.sendMessage(msg.chat_id, aa, "Markdown");
+      //state = 1;
+      feeder(50);
+      //feeder2(500);
+      float a = cek_suhu();
+      float b = phMeter();
+      send_feed("1", a, b);
+    }
+    else if (msg.text == "60")
+    {
+      stepperSpeed = msg.text.toInt();
+      
+      String aa = "Start feeding the fish using speed " + msg.text;
+      
+      bot.sendMessage(msg.chat_id, aa, "Markdown");
+      //state = 1;
+      feeder(60);
+      //feeder2(500);
+      float a = cek_suhu();
+      float b = phMeter();
+      send_feed("1", a, b);
+    }
+    else if (msg.text == "70")
+    {
+      stepperSpeed = msg.text.toInt();
+      
+      String aa = "Start feeding the fish using speed " + msg.text;
+      
+      bot.sendMessage(msg.chat_id, aa, "Markdown");
+      //state = 1;
+      feeder(70);
+      //feeder2(500);
+      float a = cek_suhu();
+      float b = phMeter();
+      send_feed("1", a, b);
+    }
+    else if (msg.text == "80")
+    {
+      stepperSpeed = msg.text.toInt();
+      
+      String aa = "Start feeding the fish using speed " + msg.text;
+      
+      bot.sendMessage(msg.chat_id, aa, "Markdown");
+      //state = 1;
+      feeder(80);
+      //feeder2(500);
+      float a = cek_suhu();
+      float b = phMeter();
+      send_feed("1", a, b);
+    }
+    else if (msg.text == "90")
+    {
+      stepperSpeed = msg.text.toInt();
+      
+      String aa = "Start feeding the fish using speed " + msg.text;
+      
+      bot.sendMessage(msg.chat_id, aa, "Markdown");
+      //state = 1;
+      feeder(90);
+      //feeder2(500);
+      float a = cek_suhu();
+      float b = phMeter();
+      send_feed("1", a, b);
+    }
+    else if (msg.text == "100")
+    {
+      stepperSpeed = msg.text.toInt();
+      
+      String aa = "Start feeding the fish using speed " + msg.text;
+      
+      bot.sendMessage(msg.chat_id, aa, "Markdown");
+      //state = 1;
+      feeder(100);
+      //feeder2(500);
+      float a = cek_suhu();
+      float b = phMeter();
+      send_feed("1", a, b);
     }
     else if (msg.text == "/wheater")
     {
-      String payload = get_weather("Yogyakarta");
+      bot.sendChatAction(msg.chat_id, "typing");
+      String country = "Malaysia";
+      String payload = get_weather(country);
       DynamicJsonDocument doc(2048);
       deserializeJson(doc, payload);
 
-      answer = "Perkiraan cuaca ";
+      answer = "weather forecast " + country + "\n";
       answer += doc["location"]["localtime"].as<String>() + "\n\n";
       answer += "Suhu Celsius : " + doc["current"]["temp_c"].as<String>() + "\n";
       answer += "Suhu Fanreheit : " + doc["current"]["temp_f"].as<String>() + "\n";
       answer += "Kelembapan : " + doc["current"]["humidity"].as<String>() + "\n";
       answer += "Kondisi : " + doc["current"]["condition"]["text"].as<String>() + "\n";
       answer += "Angin : " + doc["current"]["wind_mph"].as<String>() + "mph, " + doc["current"]["wind_kph"].as<String>() + "kph\n";
-
-      Serial.println(doc["weather"].as<String>());
     }
     else
-      answer = "Please use command.";
+      answer = "Please use command. or type /help to see command bot list";
 
     bot.sendMessage(msg.chat_id, answer, "Markdown");
+    chatid = msg.chat_id;
+
+    Serial.println(chatid);
   }
 }
 
 void bot_setup()
 {
   const String commands = F("["
-                            "{\"command\":\"help\",  \"description\":\"Fishee bot siap membantu!\"},"
-                            "{\"command\":\"start\", \"description\":\"Selamat datang di Fishee bot!\"},"
-                            "{\"command\":\"status\",\"description\":\"Informasi status pada setiap sensor\"},"
-                            "{\"command\":\"feed\", \"description\":\"Saatnya memberi pakan ikan\"},"
-                            "{\"command\":\"wheater\", \"description\":\"Perkiraan cuaca hari ini\"}"
+                            "{\"command\":\"start\"},"
+                            "{\"command\":\"help\",  \"description\":\"bot command list\"},"
+                            "{\"command\":\"status\",\"description\":\"check the status of your fish pond\"},"
+                            "{\"command\":\"feed\", \"description\":\"feed your fish\"},"
+                            "{\"command\":\"wheater\", \"description\":\"check current weather status\"}"
                             "]");
   bot.setMyCommands(commands);
 }
